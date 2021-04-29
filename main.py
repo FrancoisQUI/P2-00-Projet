@@ -3,19 +3,19 @@ from pprint import pprint
 import requests
 from bs4 import BeautifulSoup
 
-'''Url de test'''
 
 user_input = input("Url Page to scrape :\n    ")
 test_url = user_input if user_input != '' else "http://books.toscrape.com/catalogue/the-little-prince_72/index.html"
 
 # ie : http://books.toscrape.com/catalogue/the-little-prince_72/index.html
 
+site_url = "http://books.toscrape.com"
 
 def clean_string(string: str):
     string = string.replace("Â£", '')
     return string
 
-
+    
 def get_book_data(book_url: str):
     """
     :rtype: dict
@@ -59,12 +59,34 @@ def get_book_data(book_url: str):
             category = category_link[0].get_text()
             book_data['category'] = category
 
+        def get_image_url():
+            image = soup.select(".thumbnail img")
+            image = image[0].get("src")
+            image = str(image).replace("../..", site_url)
+            book_data['image_url'] = image
+
+        def get_review_rating():
+            rating = soup.select_one(".star-rating")
+            rating = rating.get("class")[1]
+            if rating.lower() == "one":
+                book_data['review_rating'] = '1'
+            elif rating.lower() == "two":
+                book_data['review_rating'] = '2'
+            elif rating.lower() == "three":
+                book_data['review_rating'] = '3'
+            elif rating.lower() == "four":
+                book_data['review_rating'] = '4'
+            elif rating.lower() == "five":
+                book_data['review_rating'] = '5'
+            else:
+                book_data['review_rating'] = 'error'
+
         get_book_title()
         get_book_description()
         get_book_category()
         get_data_from_table()
-
-    # to scrape : product_description, review_rating, image_url
+        get_image_url()
+        get_review_rating()
 
     return book_data
 
