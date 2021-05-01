@@ -1,8 +1,8 @@
 from pprint import pprint
+import csv
 
 import requests
 from bs4 import BeautifulSoup
-
 
 user_input = input("Url Page to scrape :\n    ")
 test_url = user_input if user_input != '' else "http://books.toscrape.com/catalogue/the-little-prince_72/index.html"
@@ -11,11 +11,12 @@ test_url = user_input if user_input != '' else "http://books.toscrape.com/catalo
 
 site_url = "http://books.toscrape.com"
 
+
 def clean_string(string: str):
     string = string.replace("Â£", '')
     return string
 
-    
+
 def get_book_data(book_url: str):
     """
     :rtype: dict
@@ -35,7 +36,7 @@ def get_book_data(book_url: str):
                 data = clean_string(table_line.find("td").get_text())
 
                 if index.lower() == "upc".lower():
-                    book_data["universal_ product_code"] = data
+                    book_data["universal_product_code"] = data
                 elif index.lower() == "Price (excl. tax)".lower():
                     book_data["price_including_tax"] = data
                 elif index.lower() == "Price (incl. tax)".lower():
@@ -91,4 +92,25 @@ def get_book_data(book_url: str):
     return book_data
 
 
-pprint(get_book_data(test_url))
+def book_data_to_csv(book_data: dict, filename: str):
+    desired_order = ["product_page_url",
+                     "universal_product_code",
+                     "title",
+                     "price_including_tax",
+                     "price_excluding_tax",
+                     "number_available",
+                     "product_description",
+                     "category",
+                     "review_rating",
+                     "image_url"]
+
+    with open(filename, 'w', newline='') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=desired_order)
+
+        writer.writeheader()
+        writer.writerow(book_data)
+
+
+a_book = get_book_data(test_url)
+pprint(a_book)
+book_data_to_csv(a_book, 'test.csv')
