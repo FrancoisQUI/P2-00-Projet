@@ -4,15 +4,13 @@ from Color_Console import *
 from bs4 import BeautifulSoup
 
 
-def clean_string(string: str):
-    string = string.replace("Â£", '')
-    # TODO: search another method to resolve encoding problem
-    return string
-
-
-def get_book_data(book_url: str):
+def get_book_data(book_url: str, site_url: str):
     """
-    :rtype: dict
+    Get all the data we need for a book and store it in a dict
+
+            :parameter
+
+
     """
     site_url = "http://books.toscrape.com/"
     response = requests.get(book_url)
@@ -24,10 +22,10 @@ def get_book_data(book_url: str):
             """
             Read the table and push data in the book_data dict
             """
-            table_lines = soup.findAll("tr")
+            table_lines = soup.find_all("tr")
             for table_line in table_lines:
-                index = clean_string(table_line.find("th").get_text())
-                data = clean_string(table_line.find("td").get_text())
+                index = table_line.find("th").get_text()
+                data = table_line.find("td").get_text()
 
                 if index.lower() == "upc".lower():
                     book_data["universal_product_code"] = data
@@ -50,7 +48,6 @@ def get_book_data(book_url: str):
 
         def get_book_category():
             category_link = soup.select(".breadcrumb li:nth-child(3) a")
-            # TODO: Don't use CSS selector, but Bs's methods instead
             category = category_link[0].get_text()
             book_data['category'] = category
 
