@@ -23,7 +23,7 @@ def get_books_url_from_category_url(category_url: str):
         books_url = get_page_books()
 
     else:
-        print("Erreur de requête")
+        print("Erreur de requête", response)
         return False
 
     return books_url
@@ -33,8 +33,8 @@ def get_category_next_page(category_url: str):
     response = requests.get(category_url)
     if response.ok:
         def get_category_url_name():
-            category_url_name = category_url.replace(
-                "index.html", "")
+            pos = category_url.rfind("/") + 1
+            category_url_name = category_url[:pos]
             return category_url_name
 
         soup = BeautifulSoup(response.content, "lxml")
@@ -47,5 +47,3 @@ def get_category_next_page(category_url: str):
 
         else:
             return False
-
-
