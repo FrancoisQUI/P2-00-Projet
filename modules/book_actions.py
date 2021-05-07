@@ -94,11 +94,17 @@ def book_data_to_csv(book_data: dict, filename: str):
                      "review_rating",
                      "image_url"]
 
-    with open(filename, 'w', newline='') as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=desired_order)
-        writer.writeheader()
+    file_exists = os.path.isfile(filename)
+    with open(filename, 'a', newline='') as csv_file:
+        writer = csv.DictWriter(csv_file,
+                                delimiter=',',
+                                lineterminator='\n',
+                                fieldnames=desired_order)
+
+        if not file_exists:
+            writer.writeheader()
         try:
             writer.writerow(book_data)
-            ctext(f"Book \"{book_data['title']}\" scraped in {filename} correctly", "green")
+            ctext(f'Book "{book_data["title"]}" scraped in {filename} correctly', "green")
         except csv.Error as e:
-            ctext(f"An error occurred for the book \"{book_data['title']}\" : {e}", "black", "red")
+            ctext(f'An error occurred for the book "{book_data["title"]}" : {e}', "black", "red")

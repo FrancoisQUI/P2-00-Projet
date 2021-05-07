@@ -5,6 +5,10 @@ chardet==4.0.0
 Color-Console==10.0
 idna==2.10
 lxml==4.6.3
+prompt-toolkit==3.0.18
+Pygments==2.9.0
+regex==2021.4.4
 requests==2.25.1
 soupsieve==2.2.1
 urllib3==1.26.4
+wcwidth==0.2.5

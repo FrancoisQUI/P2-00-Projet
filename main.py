@@ -59,7 +59,7 @@ def test_function(function_to_test):
         for book_list in pre_books_to_scrape:
             for book in book_list:
                 books_to_scrape.append(book)
-
+        ctext("Full Book list from category to scrape :", "green")
         pprint(books_to_scrape)
         ctext(f"there are {len(books_to_scrape)} books to scrape", 'green')
 
@@ -70,3 +70,6 @@ def test_function(function_to_test):
 
     elif function_to_test == "None":
         ctext("WIP", "red")
+
+
+test_function(TEST_FUNCTION)
