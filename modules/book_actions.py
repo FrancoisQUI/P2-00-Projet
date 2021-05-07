@@ -12,7 +12,6 @@ def get_book_data(book_url: str, site_url: str):
 
 
     """
-    site_url = "http://books.toscrape.com/"
     response = requests.get(book_url)
     book_data = {'product_page_url': book_url}
     if response.ok:

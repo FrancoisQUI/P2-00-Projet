@@ -1,3 +1,5 @@
-/env/
-/.idea/
+/env
+/.idea
+/output_files
+/modules/__pycache__/
 .gitignore~
