@@ -4,7 +4,7 @@ from Color_Console import *
 from bs4 import BeautifulSoup
 
 
-def get_book_data(book_url: str, site_url: str):
+def get_book_data(book_url: str, site_url: str = "http://books.toscrape.com"):
     """
     Get all the data we need for a book and store it in a dict
 
@@ -42,7 +42,11 @@ def get_book_data(book_url: str, site_url: str):
             book_data["title"] = title
 
         def get_book_description():
-            description = soup.find(id="product_description").find_next("p").get_text()
+            description = soup.find(id="product_description")
+            if not description:
+                description = "No description on the site"
+            else:
+                description = description.find_next("p").get_text()
             book_data['product_description'] = description
 
         def get_book_category():

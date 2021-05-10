@@ -2,13 +2,13 @@ from pprint import pprint
 
 import modules.book_actions as book_actions
 import modules.category_actions as cat_actions
-import modules.site_actions
+import modules.site_actions as site_actions
 
 from Color_Console import *
 
 OUTPUT_FILE_MAIN_DIR = "output_files"
 SITE_URL = "http://books.toscrape.com"
-TEST_FUNCTION = "Category"  # None, Book, Category
+TEST_FUNCTION = "All"  # All, Book, Category
 
 
 def test_function(function_to_test):
@@ -38,11 +38,12 @@ def test_function(function_to_test):
                  "/romance_8/index.html"
         cat_actions.scrape_category(tested_cat_url)
 
-    elif function_to_test == "None":
+    elif function_to_test == "All":
         ctext("WIP", "red")
-        categories_url_to_scrape = modules.site_actions.get_all_categories(SITE_URL)
+        categories_url_to_scrape = site_actions.get_all_categories(SITE_URL)
 
-        # for category_url_to_scrape in categories_url_to_scrape:
+        for category_url_to_scrape in categories_url_to_scrape:
+            cat_actions.scrape_category(category_url_to_scrape)
 
 
 test_function(TEST_FUNCTION)
