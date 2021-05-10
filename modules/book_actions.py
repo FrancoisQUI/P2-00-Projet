@@ -108,3 +108,11 @@ def book_data_to_csv(book_data: dict, filename: str):
             ctext(f'Book "{book_data["title"]}" scraped in {filename} correctly', "green")
         except csv.Error as e:
             ctext(f'An error occurred for the book "{book_data["title"]}" : {e}', "black", "red")
+
+
+def scrape_a_book_and_hydrate_csv(book_url: str,
+                                  site_url: str = "http://books.toscrape.com",
+                                  output_file: str = "output_files"):
+    one_book = get_book_data(book_url, site_url)
+    cvs_file_name = output_file + "/" + one_book['category'] + ".csv"
+    book_data_to_csv(one_book, cvs_file_name)
