@@ -4,7 +4,7 @@ import requests
 from Color_Console import ctext
 from bs4 import BeautifulSoup
 
-from modules.book_actions import scrape_a_book_and_hydrate_csv
+from modules.book_actions import scrape_a_book_and_hydrate_csv, download_book_img
 
 
 def get_books_url_from_category_url(category_url: str):
@@ -77,6 +77,6 @@ def scrape_category(first_category_page, site_url="http://books.toscrape.com"):
     ctext(f"there are {len(books_to_scrape)} books to scrape", 'green')
 
     for book_to_scrape in books_to_scrape:
-        scrape_a_book_and_hydrate_csv(book_to_scrape, site_url, )
+        scrape_a_book_and_hydrate_csv(book_to_scrape, site_url)
 
     ctext("Done")

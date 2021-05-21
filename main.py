@@ -1,3 +1,4 @@
+import os
 from pprint import pprint
 
 import modules.book_actions as book_actions
@@ -11,7 +12,13 @@ SITE_URL = "http://books.toscrape.com"
 TEST_FUNCTION = "All"  # All, Book, Category
 
 
+def check_and_create_dir(output_dir: str):
+    if not os.path.exists(output_dir):
+        os.mkdir(output_dir)
+
+
 def test_function(function_to_test):
+    check_and_create_dir(OUTPUT_FILE_MAIN_DIR)
     if function_to_test == "Book":
         ctext("Book's functions test :", 'blue')
         user_input = input("Url Page to scrape :\n     ")
@@ -22,6 +29,7 @@ def test_function(function_to_test):
 
         a_book = book_actions.get_book_data(test_url, SITE_URL)
         pprint(a_book)
+        book_actions.download_book_img(a_book)
         book_actions.book_data_to_csv(a_book,
                                       OUTPUT_FILE_MAIN_DIR
                                       + '/'
@@ -39,7 +47,7 @@ def test_function(function_to_test):
         cat_actions.scrape_category(tested_cat_url)
 
     elif function_to_test == "All":
-        ctext("WIP", "red")
+
         categories_url_to_scrape = site_actions.get_all_categories(SITE_URL)
 
         for category_url_to_scrape in categories_url_to_scrape:

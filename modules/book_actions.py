@@ -1,5 +1,6 @@
 import requests
 import csv
+import os
 from Color_Console import *
 from bs4 import BeautifulSoup
 
@@ -7,10 +8,6 @@ from bs4 import BeautifulSoup
 def get_book_data(book_url: str, site_url: str = "http://books.toscrape.com"):
     """
     Get all the data we need for a book and store it in a dict
-
-            :parameter
-
-
     """
     response = requests.get(book_url)
     book_data = {'product_page_url': book_url}
@@ -118,5 +115,24 @@ def scrape_a_book_and_hydrate_csv(book_url: str,
                                   site_url: str = "http://books.toscrape.com",
                                   output_file: str = "output_files"):
     one_book = get_book_data(book_url, site_url)
+    download_book_img(one_book)
     cvs_file_name = output_file + "/" + one_book['category'] + ".csv"
     book_data_to_csv(one_book, cvs_file_name)
+
+
+def download_book_img(book: dict, output_file: str = "output_files"):
+    print("Saving Img...")
+    img_data = requests.get(book['image_url']).content
+    path = output_file + "/" + book["category"].replace(" ", "") + "/"
+
+    dir_exists = os.path.exists(path)
+
+    if not dir_exists:
+        os.mkdir(path)
+
+    with open(output_file + "/"
+              + book["category"].replace(" ", "") + "/"
+              + book["title"].replace(" ", "").replace("/", "") + book["universal_product_code"]
+              + ".jpg", 'wb') \
+            as handler:
+        handler.write(img_data)
