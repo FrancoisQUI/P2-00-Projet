@@ -1,6 +1,6 @@
 import requests
 import csv
-import os
+
 from Color_Console import *
 from bs4 import BeautifulSoup
 
