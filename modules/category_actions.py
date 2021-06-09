@@ -4,7 +4,7 @@ import requests
 from Color_Console import ctext
 from bs4 import BeautifulSoup
 
-from modules.book_actions import scrape_a_book_and_hydrate_csv, download_book_img
+from modules.book_actions import scrape_a_book_and_hydrate_csv
 
 
 def get_books_url_from_category_url(category_url: str):
